@@ -9,7 +9,7 @@ from langchain.callbacks import StreamingStdOutCallbackHandler
 from dotenv import load_dotenv
 import os
 load_dotenv()
-#MYKEY=str(os.getenv('OPENAI'))
+MYKEY=str(os.getenv('OPENAI'))
 # Set page title
 st.title('PDF2BrainCells 📑➡️🧠')
 
