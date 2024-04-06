@@ -10,6 +10,9 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 MYKEY=str(os.getenv('OPENAI'))
+MYKEY = os.environ.get('OPENAI')
+
+#MYKEY=str(os.getenv('OPENAI'))
 # Set page title
 st.title('PDF2BrainCells 📑➡️🧠')
 
