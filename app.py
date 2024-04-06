@@ -23,7 +23,7 @@ if uploaded_file:
         f.write(uploaded_file.getvalue())
     loader = PyPDFLoader(temp_file_path)
     pages= loader.load_and_split()
-    faiss_index = FAISS.from_documents(pages, OpenAIEmbeddings(openai_api_key=MYKEY))
+    faiss_index = FAISS.from_documents(pages, OpenAIEmbeddings(openai_api_key=user_api_key if user_api_key else MYKEY))
     retriever = faiss_index.as_retriever()
     template = """Answer the question based for an examination point of view only on the following context in Markdown format. :
         {context}
