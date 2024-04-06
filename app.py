@@ -27,7 +27,8 @@ if uploaded_file:
     loader = PyPDFLoader(temp_file_path)
     pages= loader.load_and_split()
     if user_api_key is None:
-        st.warning("Please Provide OpenAI API Key", icon="⚠️")
+        st.sidebar.warning("Please Provide OpenAI API Key", icon="⚠️")
+        exit
     else:
 
         faiss_index = FAISS.from_documents(pages, OpenAIEmbeddings(openai_api_key=user_api_key if user_api_key else MYKEY))
