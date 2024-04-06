@@ -8,6 +8,8 @@ from langchain_community.vectorstores import FAISS
 from langchain.callbacks import StreamingStdOutCallbackHandler
 from dotenv import load_dotenv
 import os
+load_dotenv()
+MYKEY=str(os.getenv('OPENAI'))
 # Set page title
 st.title('PDF2BrainCells 📑➡️🧠')
 
@@ -21,7 +23,7 @@ if uploaded_file:
         f.write(uploaded_file.getvalue())
     loader = PyPDFLoader(temp_file_path)
     pages= loader.load_and_split()
-    faiss_index = FAISS.from_documents(pages, OpenAIEmbeddings(openai_api_key=user_api_key if user_api_key else "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"))
+    faiss_index = FAISS.from_documents(pages, OpenAIEmbeddings(openai_api_key=user_api_key if user_api_key else MYKEY))
     retriever = faiss_index.as_retriever()
     template = """Answer the question based for an examination point of view only on the following context in Markdown format. :
         {context}
@@ -30,7 +32,7 @@ if uploaded_file:
         """
     prompt = ChatPromptTemplate.from_template(template)
     streamingcall=StreamingStdOutCallbackHandler()
-    model = ChatOpenAI(openai_api_key=user_api_key if user_api_key else "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",streaming=True,callbacks=[streamingcall],callback_manager=None)
+    model = ChatOpenAI(openai_api_key=user_api_key if user_api_key else MYKEY,streaming=True,callbacks=[streamingcall],callback_manager=None)
     chain = (
             {"context": retriever, "question": RunnablePassthrough()}
             | prompt
