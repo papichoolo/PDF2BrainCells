@@ -9,13 +9,13 @@ from langchain.callbacks import StreamingStdOutCallbackHandler
 from dotenv import load_dotenv
 import os
 load_dotenv()
-MYKEY=str(os.getenv('OPENAI'))
+#MYKEY=str(os.getenv('OPENAI'))
 # Set page title
 st.title('PDF2BrainCells 📑➡️🧠')
 
 # Upload PDF file
 uploaded_file = st.sidebar.file_uploader('Upload a PDF file', type=['pdf'])
-user_api_key = st.sidebar.text_input('Enter your OpenAI API key (optional)',type='password')
+user_api_key = st.sidebar.text_input('Enter your OpenAI API key (Mandatory)',type='password')
 if uploaded_file:
     # Perform text processing
     temp_file_path = 'temp.pdf'
