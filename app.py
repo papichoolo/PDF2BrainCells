@@ -27,11 +27,11 @@ if uploaded_file:
     loader = PyPDFLoader(temp_file_path)
     pages= loader.load_and_split()
     if user_api_key is None:
-        st.sidebar.warning("Please Provide OpenAI API Key", icon="⚠️")
+        st.toast("For continued supprt, it is preferreable to use you won API key", icon="⚠️")
         exit
     else:
 
-        faiss_index = FAISS.from_documents(pages, OpenAIEmbeddings(openai_api_key=user_api_key if user_api_key else MYKEY))
+        faiss_index = FAISS.from_documents(pages, OpenAIEmbeddings(openai_api_key=user_api_key if user_api_key else st.secrets["OPENAI"]))
         retriever = faiss_index.as_retriever()
         template = """Answer the question based for an examination point of view only on the following context in Markdown format. :
             {context}
@@ -40,7 +40,7 @@ if uploaded_file:
             """
         prompt = ChatPromptTemplate.from_template(template)
         streamingcall=StreamingStdOutCallbackHandler()
-        model = ChatOpenAI(openai_api_key=user_api_key if user_api_key else MYKEY,streaming=True,callbacks=[streamingcall],callback_manager=None)
+        model = ChatOpenAI(openai_api_key=user_api_key if user_api_key else st.secrets["OPENAI"],streaming=True,callbacks=[streamingcall],callback_manager=None)
         chain = (
                 {"context": retriever, "question": RunnablePassthrough()}
                 | prompt
